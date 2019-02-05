@@ -1,13 +1,12 @@
 from flask import render_template, url_for, flash, redirect, jsonify, request
 from project import app, db, bcrypt
-from project.forms import SignupForm
+from project.forms import SignupForm, LoginForm
 from project.models import User, UserSchema
 from flask_login import login_user, logout_user, current_user, login_required
 
 @app.route('/')
 def home():
-	form = SignupForm()
-	return render_template('index.html', form=form)
+	return render_template('home.html')
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -23,5 +22,29 @@ def signup():
 		flash('Account created for {}! You are now able to login.'.format(user.email), 'success')
 		user_schema = UserSchema()
 		user_result = user_schema.dump(user)
-		return render_template('index.html', form=SignupForm())
-	return render_template('index.html', form=form)
+		return render_template('users/show.html', user=user)
+	return render_template('users/new.html', form=form)
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    form = LoginForm()
+    if current_user.is_authenticated:
+        return redirect(url_for('user_show'))
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        if user and bcrypt.check_password_hash(user.password, form.password.data):
+            login_user(user)
+            flash("Welcome Back, {}!".format(user.email), 'success')
+            return redirect(url_for('user_show'))
+        else:
+            flash('Login Unsuccessful. Please check your email and password', 'danger')
+    return render_template('users/login.html', form=form)
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('login'))
+    
+@app.route('/users/show', methods=['GET',])
+def user_show():
+    return render_template('users/show.html', user=current_user)
