@@ -16,5 +16,5 @@ flask-bcrypt = "*"
 flask-login = "*"
 flask-marshmallow = "*"
 flask-wtf = "*"
-
 flask-cors = "*"
+requests = "*"

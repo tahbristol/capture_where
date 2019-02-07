@@ -1,8 +1,10 @@
 from flask import render_template, url_for, flash, redirect, jsonify, request
 from project import app, db, bcrypt
 from project.forms import SignupForm, LoginForm
-from project.models import User, UserSchema
+from project.models import User, UserSchema, Address, AddressSchema
 from flask_login import login_user, logout_user, current_user, login_required
+import requests as req
+from project import ENV
 
 @app.route('/')
 def home():
@@ -48,3 +50,16 @@ def logout():
 @app.route('/users/show', methods=['GET',])
 def user_show():
     return render_template('users/show.html', user=current_user)
+
+@app.route('/users/location', methods=['POST',])
+def user_location():
+    lat, long = [request.get_json()[k] for k in ['lat', 'long']]
+    import pdb; pdb.set_trace()
+    url = f'https://maps.googleapis.com/maps/api/geocode/json?latlng={lat},{long}&key={ENV.GEO_API_KEY}'
+    response = req.get(url)
+    address = response.json()['results'][0]['formatted_address']
+    address_obj = Address(location=address, user_id=current_user.id)
+    db.session.add(address_obj)
+    db.session.commit()
+    return redirect(url_for('user_show'))
+    #import pdb; pdb.set_trace()

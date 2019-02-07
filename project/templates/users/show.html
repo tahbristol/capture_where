@@ -3,4 +3,16 @@
 {% block content %}
   <p>Welcome, {{ user.email }}</p>
   <a href="{{ url_for('logout') }}">Logout</a>
+  
+  
+  <button id="saveLocation">Save Location</button>
+  <button id="showSavedLocation">Show Locations</button>
+  
+  {% if user.locations %}
+    <ul>
+      {% for loc in user.locations %}
+        <li>{{ loc.location }}</li>
+      {% endfor %}
+   </ul>
+  {% endif %}
 {% endblock %}
