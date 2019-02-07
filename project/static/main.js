@@ -13,7 +13,12 @@ function usePosition(position){
 		headers:{
 			'Content-Type': 'application/json'
 		}
+	}).then(res => {
+		if(res.ok){
+			window.location = 'http://localhost:5000/users/show'
+		}
+		else {
+			alert('Location not saved')
+		}
 	})
-	//let url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${long}&key=${api_key}`
-	
 }

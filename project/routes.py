@@ -54,12 +54,13 @@ def user_show():
 @app.route('/users/location', methods=['POST',])
 def user_location():
     lat, long = [request.get_json()[k] for k in ['lat', 'long']]
-    import pdb; pdb.set_trace()
     url = f'https://maps.googleapis.com/maps/api/geocode/json?latlng={lat},{long}&key={ENV.GEO_API_KEY}'
     response = req.get(url)
     address = response.json()['results'][0]['formatted_address']
     address_obj = Address(location=address, user_id=current_user.id)
     db.session.add(address_obj)
     db.session.commit()
-    return redirect(url_for('user_show'))
+    data = {"redirect": url_for('user_show')}
+    
+    return jsonify(data)#{"redirect": url_for('user_show')}
     #import pdb; pdb.set_trace()
