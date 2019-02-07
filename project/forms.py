@@ -5,15 +5,15 @@ from project.models import User
 
 
 class SignupForm(FlaskForm):
-	email = StringField('Email', validators=[DataRequired(), Email()])
-	password = PasswordField('Password', validators=[DataRequired()])
-	password_confirmation = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
-	submit = SubmitField('Sign Up')
-	
-	def validate_email(self, email):
-		user = User.query.filter_by(email=email.data).first()
-		if user:
-			raise ValidationError('That email has already been taken.')
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    password = PasswordField('Password', validators=[DataRequired()])
+    password_confirmation = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
+    submit = SubmitField('Sign Up')
+    
+    def validate_email(self, email):
+        user = User.query.filter_by(email=email.data).first()
+        if user:
+            raise ValidationError('That email has already been taken.')
 
 class LoginForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])

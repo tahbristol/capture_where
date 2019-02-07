@@ -1,1 +1,0 @@
-GEO_API_KEY = 'AIzaSyCkH-4pADPhVxxqi3znLGHr8ftNKPPGrmw'
