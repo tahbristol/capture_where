@@ -4,7 +4,7 @@
 <div class="container signupPage">
   <form class="form-signin form-signup" action="/login" method="POST">
 		{{ form.hidden_tag() }}
-    <h2 class="form-signin-heading">Sign Up</h2>
+    <h2 class="form-signin-heading">Login</h2>
 		<br />  
 		<div class="form-group">	
 			{% if form.email.errors %}
@@ -37,9 +37,9 @@
 		</div>
   </form>
   <p>
-    <small>Have an account?</small>
-    <a href="{{ url_for('login')}}">
-      <strong>Login</strong>
+    <small>Need an account?</small>
+    <a href="{{ url_for('signup')}}">
+      <strong>Sign Up</strong>
     </a>
   </p>
 </div>

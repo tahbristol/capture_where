@@ -25,8 +25,9 @@ class UserSchema(ma.Schema):
 class Address(db.Model):
     id = db.Column(db.Integer, primary_key=True, nullable=False)
     location = db.Column(db.String(255), nullable=False)
+    note = db.Column(db.String(255), nullable=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
 class AddressSchema(ma.Schema):
     class Meta:
-        fields = ('location', 'user_id')
+        fields = ('location', 'user_id', 'note')

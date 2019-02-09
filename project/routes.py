@@ -8,8 +8,8 @@ import requests as req
 
 @app.route('/')
 def home():
-    return render_template('home.html')
-
+    return redirect(url_for('signup'))
+    
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     form = SignupForm()
@@ -21,6 +21,7 @@ def signup():
         user = User(email=form['email'], password=hashed_pw)
         db.session.add(user)
         db.session.commit()
+        login_user(user)
         flash('Account created for {}! You are now able to login.'.format(user.email), 'success')
         user_schema = UserSchema()
         user_result = user_schema.dump(user)
@@ -40,6 +41,7 @@ def login():
             return redirect(url_for('user_show'))
         else:
             flash('Login Unsuccessful. Please check your email and password', 'danger')
+            render_template('/users/login.html', form=form)
     return render_template('users/login.html', form=form)
 
 @app.route('/logout')
@@ -53,13 +55,21 @@ def user_show():
 
 @app.route('/users/location', methods=['POST',])
 def user_location():
-    lat, long = [request.get_json()[k] for k in ['lat', 'long']]
+    lat, long, note = [request.get_json()[k] for k in ['lat', 'long', 'note']]
     geo_api_key = os.environ.get('GEO_API_KEY')
     url = f'https://maps.googleapis.com/maps/api/geocode/json?latlng={lat},{long}&key={geo_api_key}'
     response = req.get(url)
     address = response.json()['results'][0]['formatted_address']
-    address_obj = Address(location=address, user_id=current_user.id)
+    address_obj = Address(location=address, note=note, user_id=current_user.id)
     db.session.add(address_obj)
     db.session.commit()
     data = {"redirect": url_for('user_show')}
     return jsonify(data)
+
+@app.route('/address/delete/<int:id>', methods=['POST'])
+def delete_address(id):
+    address = Address.query.filter_by(id=id).first()
+    if address:
+        db.session.delete(address)
+        db.session.commit()
+    return redirect(url_for('user_show'))

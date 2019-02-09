@@ -1,17 +1,49 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-  <p>Welcome, {{ user.email }}</p>
-  <a href="{{ url_for('logout') }}">Logout</a>
+  <header>
+    <p>Welcome, {{ user.email }}</p>
+  </header>
+  <section>
+    <div class="col-xl-3 col-md-6 mb-4" id="saveLocation">
+     <div class="card border-left-primary shadow h-100 py-2">
+       <div class="card-body">
+         <div class="row no-gutters align-items-center">
+          <div class="col mr-2">
+            <div class="h5 mb-0 font-weight-bold text-gray-800">Save Location</div>
+          </div>
+          <div class="col-auto">
+            <i class="fas fa-calendar fa-2x text-gray-300"></i>
+          </div>
+         </div>
+       </div>
+     </div>
+    </div>
+    <div id="noteContainer">
+      <label>Note</label>
+      <input class="form-control" type="text" name="note" value="" />  
+    </div>
+    <p>
+      <a id="logout" class="btn btn-danger" href="{{ url_for('logout') }}">Logout</a>
+    </p>
+  </section>
   
-  
-  <button id="saveLocation">Save Location</button>
-  <button id="showSavedLocation">Show Locations</button>
   
   {% if user.locations %}
-    <ul>
+    <ul class="list-group">
       {% for loc in user.locations %}
-        <li>{{ loc.location }}</li>
+        <li class="list-group-item addresses">
+          <p>
+            <strong>Address:</strong> {{ loc.location}}
+          </p>
+          <p>
+            <strong>Note:</strong> {{ loc.note }}
+          </p>
+          <form action="{{ url_for('delete_address', id=loc.id) }}" method="POST">
+            <input type="hidden" name="_method" value="DELETE" />
+            <input class="btn btn-secondary" type="submit" value="Delete" />
+          </form>
+        </li>
       {% endfor %}
    </ul>
   {% endif %}

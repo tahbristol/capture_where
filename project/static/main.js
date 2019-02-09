@@ -6,10 +6,11 @@ saveLocationButton.addEventListener('click', function(e){
 function usePosition(position){
 	let lat = position.coords.latitude;
 	let long = position.coords.longitude;	
+	let note = document.querySelector('#noteContainer input').value;
 	
 	fetch('/users/location',{
-		method: 'POST', // or 'PUT'
-		body: JSON.stringify({lat: lat, long: long}), // data can be `string` or {object}!
+		method: 'POST',
+		body: JSON.stringify({lat: lat, long: long, note: note}),
 		headers:{
 			'Content-Type': 'application/json'
 		}
@@ -22,3 +23,10 @@ function usePosition(position){
 		}
 	})
 }
+
+let logout = document.getElementById('logout');
+logout.addEventListener('click', function(e){
+	if(!confirm("Are you sure you want to logout?")){
+		e.preventDefault();
+	}
+});
