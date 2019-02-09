@@ -4,11 +4,17 @@ saveLocationButton.addEventListener('click', function(e){
 });
 
 function usePosition(position){
+	let url_base;
 	let lat = position.coords.latitude;
 	let long = position.coords.longitude;	
 	let note = document.querySelector('#noteContainer input').value;
-	
-	fetch('/users/location',{
+	if(window.location.hostname == 'localhost'){
+		url_base = '/'
+	}
+	else {
+		url_base = 'https://capturewhere.herokuapp.com/'
+	}
+	fetch(`${url_base}users/location`,{
 		method: 'POST',
 		body: JSON.stringify({lat: lat, long: long, note: note}),
 		headers:{
@@ -16,7 +22,7 @@ function usePosition(position){
 		}
 	}).then(res => {
 		if(res.ok){
-			window.location = 'http://localhost:5000/users/show'
+			window.location = `${url_base}users/show`
 		}
 		else {
 			alert('Location not saved')
