@@ -1,4 +1,4 @@
-# dc_project2
+# captureWHERE
 
 This application saves a users location based on longitude and latitude coordinates and the Google GeoLocation API.
 A user can save a number of addresses along with a note to give more context to the address. The idea is that there may be a need for a quick way to save an address while on the go in order to use it to look something up related to the address at a later time. 
