@@ -1,3 +1,19 @@
+document.addEventListener("DOMContentLoaded", function(){
+	// Save location button event listener
+	let saveLocationButton = document.getElementById('saveLocation');
+	saveLocationButton.addEventListener('click', function(e){
+		navigator.geolocation.getCurrentPosition(usePosition);	
+	});
+
+	// Logout event listener
+	let logout = document.getElementById('logout');
+	logout.addEventListener('click', function(e){
+		if(!confirm("Are you sure you want to logout?")){
+			e.preventDefault();
+		}
+	});
+});
+
 // Template for adding addresses aynchronously
 function makeTemplate(location, note, id){
 	let url_base = getBaseUrl();
@@ -30,26 +46,14 @@ function getBaseUrl(){
 	}
 }
 
-// Save location button event listener
-let saveLocationButton = document.getElementById('saveLocation');
-saveLocationButton.addEventListener('click', function(e){
-	navigator.geolocation.getCurrentPosition(usePosition);	
-});
-
-// Logout event listener
-let logout = document.getElementById('logout');
-logout.addEventListener('click', function(e){
-	if(!confirm("Are you sure you want to logout?")){
-		e.preventDefault();
-	}
-});
-
 // Get coords then send to route to get address via api
 function usePosition(position){
 	let url_base = getBaseUrl();
 	let lat = position.coords.latitude;
 	let long = position.coords.longitude;	
 	let note = document.querySelector('#noteContainer input').value;
+	
+	loadingOverlay(true);
 	
 	fetch(`${url_base}users/location`,{
 		method: 'POST',
@@ -67,5 +71,27 @@ function usePosition(position){
 		ulList.innerHTML = ulListUpdated;
 		
 		document.querySelector('#noteContainer input').value = '';
+		loadingOverlay(false, true);
 	})
+}
+
+// start/stop overlay with loading image
+function loadingOverlay(start=false, end=true){
+	let loadingDiv = document.getElementById('loader');
+	let loaderContainer = document.getElementById('loaderContainer');
+	
+	if(start) {
+		loaderContainer.classList.add('showOverlay');
+		loaderContainer.classList.remove('hideOverlay')
+		
+		if(document.getElementsByTagName('html')[0].clientWidth < 650) {
+			loadingDiv.classList.add('startSpin');
+		}
+		
+	}
+	else if(end) {
+		loaderContainer.classList.remove('showOverlay');
+		loaderContainer.classList.add('hideOverlay');
+		loadingDiv.classList.remove('startSpin');
+	}
 }

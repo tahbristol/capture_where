@@ -30,4 +30,4 @@ class Address(db.Model):
 
 class AddressSchema(ma.Schema):
     class Meta:
-        fields = ('location', 'user_id', 'note')
+        fields = ('location', 'user_id', 'note', 'id')
