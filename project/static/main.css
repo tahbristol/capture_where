@@ -67,6 +67,10 @@ section p {
   margin-left: auto !important;
   margin-right: auto !important;
 }
+
+.signupPage {
+  max-width: 400px !important;
+}
 /*!
  * Start Bootstrap - SB Admin 2 v4.0.0 (https://startbootstrap.com/template-overviews/sb-admin-2)
  * Copyright 2013-2019 Start Bootstrap
