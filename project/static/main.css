@@ -41,6 +41,11 @@ li.addresses {
   text-align: center;
 }
 
+#saveLocation {
+  margin-left: auto;
+  margin-right: auto;
+}
+
 section p {
   text-align: center;
   margin-top: 30px;

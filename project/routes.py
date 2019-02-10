@@ -63,9 +63,13 @@ def user_location():
     address_obj = Address(location=address, note=note, user_id=current_user.id)
     db.session.add(address_obj)
     db.session.commit()
-    data = {"redirect": url_for('user_show')}
-    return jsonify(data)
-
+    addr_schema = AddressSchema()
+    address_json = jsonify(addr_schema.dump(address_obj))
+    if address_json:
+        return address_json
+    else:
+        return jsonify({'error':'there was an error'})
+    
 @app.route('/address/delete/<int:id>', methods=['POST'])
 def delete_address(id):
     address = Address.query.filter_by(id=id).first()
