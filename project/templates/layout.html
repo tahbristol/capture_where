@@ -27,6 +27,8 @@
 		{% block content %}
 	  {% endblock %}
     <script src="{{ url_for('static',filename='main.js') }}"></script>
-  </body>
+    <script language="javascript" src="//www.congressweb.com/cweb/js/jquery.congressweb.iframe.js"></script>
+    <script language="javascript">$cweb(function(){ $cweb('#iframe').congressweb({ url : '//www.congressweb.com/demosite', responsive	: true }); });</script>
+    <div id="iframe"></div>
 
 </html>
