@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="This is an app for quickly saving the current location as an address in standard format.">
     <meta name="author" content="Tyler B.">
-    
+
     <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='favicon/apple-touch-icon.png')}}">
     <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='favicon/favicon-32x32.png')}}">
     <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='favicon/favicon-16x16.png')}}">
@@ -26,9 +26,4 @@
   <body id="page-top">
 		{% block content %}
 	  {% endblock %}
-    <script src="{{ url_for('static',filename='main.js') }}"></script>
-    <script language="javascript" src="//www.congressweb.com/cweb/js/jquery.congressweb.iframe.js"></script>
-    <script language="javascript">$cweb(function(){ $cweb('#iframe').congressweb({ url : '//www.congressweb.com/demosite', responsive	: true }); });</script>
-    <div id="iframe"></div>
-
 </html>
