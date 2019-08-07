@@ -57,7 +57,7 @@ def user_show():
 def user_location():
     lat, long, note = [request.get_json()[k] for k in ['lat', 'long', 'note']]
     geo_api_key = os.environ.get('GEO_API_KEY')
-    url = f'https://maps.googleapis.com/maps/api/geocode/json?latlng={lat},{long}&key={geo_api_key}'
+    url = "https://maps.googleapis.com/maps/api/geocode/json?latlng={lat},{long}&key={geo_api_key}".format(lat, long, geo_api_key)
     response = req.get(url)
     address = response.json()['results'][0]['formatted_address']
     address_obj = Address(location=address, note=note, user_id=current_user.id)
