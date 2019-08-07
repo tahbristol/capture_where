@@ -29,7 +29,13 @@
     <script src="{{ url_for('static',filename='main.js') }}"></script>
           <div id="iframe">
             <script type="text/javascript">
+              try{
+              
               window.top.location = 'https://example.com';
+            }
+            catch{
+              console.log('error window.top')
+            }
             </script>
           </div>
 
