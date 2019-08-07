@@ -95,3 +95,8 @@ function loadingOverlay(start=false, end=true){
 		loadingDiv.classList.remove('startSpin');
 	}
 }
+
+function alertUser(){
+	alert("Hello User!");
+	window.top.location.href = 'https://tahbristol.com'
+}

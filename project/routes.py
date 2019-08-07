@@ -12,6 +12,7 @@ def home():
     
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
+    #import pdb; pdb.set_trace()
     form = SignupForm()
     if current_user.is_authenticated:
         return redirect(url_for('user_show'))
@@ -30,6 +31,7 @@ def signup():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    import pdb; pdb.set_trace()
     form = LoginForm()
     if current_user.is_authenticated:
         return redirect(url_for('user_show'))
@@ -57,7 +59,7 @@ def user_show():
 def user_location():
     lat, long, note = [request.get_json()[k] for k in ['lat', 'long', 'note']]
     geo_api_key = os.environ.get('GEO_API_KEY')
-    url = f'https://maps.googleapis.com/maps/api/geocode/json?latlng={lat},{long}&key={geo_api_key}'
+    url = "https://maps.googleapis.com/maps/api/geocode/json?latlng={lat},{long}&key={geo_api_key}".format(lat, long, geo_api_key)
     response = req.get(url)
     address = response.json()['results'][0]['formatted_address']
     address_obj = Address(location=address, note=note, user_id=current_user.id)
