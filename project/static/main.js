@@ -63,7 +63,7 @@ function usePosition(position){
 		}
 	}).then(res => res.json())
 	.then(data => {
-		let address = data[0];
+		let address = data;
 		let template_html = makeTemplate(address.location, address.note, address.id);
 		let ulList = document.getElementById('addressList');
 		let ulListContents = ulList.innerHTML.trim();
