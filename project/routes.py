@@ -59,16 +59,20 @@ def user_location():
     geo_api_key = os.environ.get('GEO_API_KEY')
     url = "https://maps.googleapis.com/maps/api/geocode/json?latlng={},{}&key={}".format(lat, long, geo_api_key)
     response = req.get(url)
+    if response.json()['status'] == 'REQUEST_DENIED':
+        return jsonify({"Error":"There was an error obtaining your location."})
+    
     address = response.json()['results'][0]['formatted_address']
     address_obj = Address(location=address, note=note, user_id=current_user.id)
     db.session.add(address_obj)
     db.session.commit()
     addr_schema = AddressSchema()
     address_json = jsonify(addr_schema.dump(address_obj))
+    
     if address_json:
         return address_json
     else:
-        return jsonify({'error':'there was an error'})
+        return jsonify({"Error":"There was an error saving your location."})
     
 @app.route('/address/delete/<int:id>', methods=['POST'])
 def delete_address(id):

@@ -63,6 +63,13 @@ function usePosition(position){
 		}
 	}).then(res => res.json())
 	.then(data => {
+		
+		if ('Error' in data){
+			alert(data['Error'])
+			loadingOverlay(false, true);
+			return;
+		}
+		
 		let address = data;
 		let template_html = makeTemplate(address.location, address.note, address.id);
 		let ulList = document.getElementById('addressList');
