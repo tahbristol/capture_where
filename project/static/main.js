@@ -1,17 +1,22 @@
 document.addEventListener("DOMContentLoaded", function(){
 	// Save location button event listener
 	let saveLocationButton = document.getElementById('saveLocation');
-	saveLocationButton.addEventListener('click', function(e){
-		navigator.geolocation.getCurrentPosition(usePosition);	
-	});
+	if(saveLocationButton) {
+		saveLocationButton.addEventListener('click', function (e) {
+			navigator.geolocation.getCurrentPosition(usePosition);
+		});
+	}
+
 
 	// Logout event listener
 	let logout = document.getElementById('logout');
-	logout.addEventListener('click', function(e){
-		if(!confirm("Are you sure you want to logout?")){
-			e.preventDefault();
-		}
-	});
+	if(logout) {
+		logout.addEventListener('click', function (e) {
+			if (!confirm("Are you sure you want to logout?")) {
+				e.preventDefault();
+			}
+		});
+	}
 });
 
 // Template for adding addresses aynchronously
